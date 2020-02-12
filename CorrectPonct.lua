@@ -19,6 +19,7 @@
 
 --[[
 Release Note:
+
 v1.7.1
 - Ne corrige maintenant la ponctuation que des lignes sélectionnées
 - Retrait de l’option de rectification d'effet de bord sur les chiffres à virgule qui cause un effet non désiré sur ce genre de ligne : « 1, 2, 3, 5, 6. »
