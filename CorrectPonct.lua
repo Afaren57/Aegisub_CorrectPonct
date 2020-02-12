@@ -1,4 +1,4 @@
-﻿--[[
+--[[
 	 CorrectPonct
 	 Copyright (C) 2014-2016 LeSaint
 
@@ -19,6 +19,10 @@
 
 --[[
 Release Note:
+v1.7.1
+- Ne corrige maintenant la ponctuation que des lignes sélectionnées
+- Retrait de l’option de rectification d'effet de bord sur les chiffres à virgule qui cause un effet non désiré sur ce genre de ligne : « 1, 2, 3, 5, 6. »
+
 v1.7
 - effet de bord avec des espaces autour de \N sur une correction en 1.6
 
@@ -52,11 +56,11 @@ v1.0beta2 :
 
 ]]
 
-	script_author = "LeSaint"
-	script_version = "1.6"
-	script_name = "Correction Ponctuation v" .. script_version
-	script_description = "Corrige la ponctuation du script courant."
-	script_modified = "01st Aug 2016"
+	script_author = "LeSaint & Vardë"
+	script_version = "1.7.1"
+	script_name = "Correction Ponctuation 1.7.1"
+	script_description = "Corrige la ponctuation de la sélection du script courant."
+	script_modified = "13th Feb 2020"
 
 	-- Déclaration des variables
 	m_Ponctuation = {}
@@ -75,8 +79,8 @@ v1.0beta2 :
 	eTypeGuillemets.GuillemetsDroits = 2
 
 	-- Valeurs par défaut
-	UseSuspChar = false
-	UseRealApostroph = false
+	UseSuspChar = true
+	UseRealApostroph = true
 	UseEspaceInsec = false
 	
 	-- function: create_adjust_config
@@ -89,7 +93,7 @@ v1.0beta2 :
 			to = {
 				class = "label",
 				x = 0, y = 0, width = 4, height = 2,
-				label = "Corrige la ponctuation du script courant :"
+				label = "Corrige la ponctuation de la sélection du script courant."
 			},
 			t_titre = {
 				class = "label",
@@ -158,7 +162,7 @@ v1.0beta2 :
 				UseEspInsecFine = false
 			end			
 			
-			CorrigePonctuationMain(subs, IdxGuil, config.EspInsec, UseEspInsecFine , config.SuspChar, config.Apost)
+			CorrigePonctuationMain(subs, sel, IdxGuil, config.EspInsec, UseEspInsecFine , config.SuspChar, config.Apost)
 			aegisub.set_undo_point("Correction ponctuation")
 		end			
 	end
@@ -235,9 +239,10 @@ v1.0beta2 :
 	-- function: CorrigePonctuationMain
 	-- purpose: Réaliser la correction du script courant.
 	-- @subs: table des sous-titres
+	-- @sel: index des lignes de sous-titres sélectionnés
 	-- @iTypeGuillemets: type de guillemets utilisés (1 = guillemets FR (« ») ; 2 = guillemets anglais (" "))
 	-- return: /
-	function CorrigePonctuationMain(subs, iTypeGuillemets, iUseEspaceInsec, iUseEspInsecFine, iUseSuspChar, iUseApost)
+	function CorrigePonctuationMain(subs, sel, iTypeGuillemets, iUseEspaceInsec, iUseEspInsecFine, iUseSuspChar, iUseApost)
 	
 		local firstlineIdx=nil -- indice de première ligne de sous titre
 		local sub
@@ -247,7 +252,7 @@ v1.0beta2 :
 		
 		aegisub.progress.task("Correction de ponctuation en cours")
 		aegisub.progress.set(0)
-		for i = 1, #subs, 1 do
+		for k, i in ipairs(sel) do
 			sub = subs[i]		
 			
 			if sub.class=="dialogue" then
@@ -539,13 +544,13 @@ v1.0beta2 :
 		end
 		aegisub.log(5,MainStr .. "\n\n")
 		
-		-- rectification d'effet de bord sur les chiffres à virgule
-		aegisub.log(5,"Rectification d'effet de bord sur les nombres rééls\n")
-		for ifor1 = 1, #m_PointVirgule do
-			tmpstring = m_PointVirgule[ifor1]
-			MainStr = MainStr:gsub("(%d+)%" .. tmpstring .. "%s(%d+)","%1%" .. tmpstring .. "%2")
-		end
-		aegisub.log(5,MainStr .. "\n\n")
+		-- -- rectification d'effet de bord sur les chiffres à virgule
+		-- aegisub.log(5,"Rectification d'effet de bord sur les nombres rééls\n")
+		-- for ifor1 = 1, #m_PointVirgule do
+		-- 	tmpstring = m_PointVirgule[ifor1]
+		-- 	MainStr = MainStr:gsub("(%d+)%" .. tmpstring .. "%s(%d+)","%1%" .. tmpstring .. "%2")
+		-- end
+		-- aegisub.log(5,MainStr .. "\n\n")
 		
 		if ProblemeGuillemets then
 			aegisub.log(5,"Notification de problème de guillemets\n")
@@ -667,4 +672,4 @@ v1.0beta2 :
 ---------------------------------------------------------------------
 ---- Macro Registrations - need to stay at the end of the script ----
 ---------------------------------------------------------------------
-aegisub.register_macro("Corriger Ponctuation", "Corrige la ponctuation du script courant.", load_macro_ponct)
+aegisub.register_macro("Corriger Ponctuation", "Corrige la ponctuation de la sélection du script courant.", load_macro_ponct)
