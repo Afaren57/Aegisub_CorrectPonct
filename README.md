@@ -23,7 +23,12 @@ Le script gère les commentaires (lignes commentaires, ou tags) ce qui permet de
 Il corrige les problèmes d'espaces double, d'espaces autour de ponctuation, de guillemets, gère certains caractères ou motifs "spéciaux" comme le point de suspension, les acronymes.
 Voyez la release note pour plus de détails, et testez-le !
 
-Release Note:
+Release Note :
+
+v1.7.2
+- Prise en charge d’autres cas pour les espaces insécables fines ou non
+- Prise en charge des nombres monétaires à virgules 
+
 v1.7.1
 - Ne corrige maintenant la ponctuation que des lignes sélectionnées
 - Retrait de l’option de rectification d'effet de bord sur les chiffres à virgule qui cause un effet non désiré sur ce genre de ligne : « 1, 2, 3, 5, 6. »
