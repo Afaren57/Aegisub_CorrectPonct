@@ -34,23 +34,23 @@ v1.7.1
 - Retrait de l’option de rectification d'effet de bord sur les chiffres à virgule qui cause un effet non désiré sur ce genre de ligne : « 1, 2, 3, 5, 6. »
 
 v1.7
-- effet de bord avec des espaces autour de \N sur une correction en 1.6
+- Effet de bord avec des espaces autour de \N sur une correction en 1.6
 
 v1.6
-- correction d'espaces restant avant un \N lors d'exécutions successives du script
-- mauvais espaces autour de guillemets si entouré d'apostrophe.
-- problème d'espace avant points de suspension dans certains cas (notamment si les points de suspension suivent directement des guillemets)
-- correction pour éviter d'avoir plusieurs fois le tag "{ErrGuillemets}" en début de ligne si le script est lancé plusieurs fois. 
+- Correction d'espaces restant avant un \N lors d'exécutions successives du script
+- Mauvais espaces autour de guillemets si entouré d'apostrophe.
+- Problème d'espace avant points de suspension dans certains cas (notamment si les points de suspension suivent directement des guillemets)
+- Correction pour éviter d'avoir plusieurs fois le tag "{ErrGuillemets}" en début de ligne si le script est lancé plusieurs fois. 
   (Pour rappel, cette erreur n'apparait que si les guillemets initiaux sont des guillemets droits (non français))
 
 v1.5
-- prise en charge de l'espace insécable fine (utilisée pour le point virgule, le point d'exclamation, le point d'interrogation), avec espace insécable pour les deux-point et les guillemets
+- Prise en charge de l'espace insécable fine (utilisée pour le point virgule, le point d'exclamation, le point d'interrogation), avec espace insécable pour les deux-point et les guillemets
 
 v1.4
-- correction pour prise en charge nouvelle version aegisub (à partir de 3.1)
+- Correction pour prise en charge nouvelle version aegisub (à partir de 3.1)
 
 v1.3
-- espace insécable autour des guillemets français si utilisation de l'espace insécable demandé
+- Espace insécable autour des guillemets français si utilisation de l'espace insécable demandé
 
 v1.2
 - Prise en charge des nombres décimaux (pas d'espace après . ou , si c'est un séparateur décimal)
