@@ -20,6 +20,10 @@
 --[[
 Release Note:
 
+v1.7.2
+- Prise en charge d’autres cas pour les espaces insécables fines ou non
+- Prise en charge des nombres monétaires à virgules 
+
 v1.7.1
 - Ne corrige maintenant la ponctuation que des lignes sélectionnées
 - Retrait de l’option de rectification d'effet de bord sur les chiffres à virgule qui cause un effet non désiré sur ce genre de ligne : « 1, 2, 3, 5, 6. »
@@ -58,8 +62,8 @@ v1.0beta2 :
 ]]
 
 	script_author = "LeSaint & Vardë"
-	script_version = "1.7.1"
-	script_name = "Correction Ponctuation 1.7.1"
+	script_version = "1.7.2"
+	script_name = "Correction Ponctuation " .. script_version
 	script_description = "Corrige la ponctuation de la sélection du script courant."
 	script_modified = "13th Feb 2020"
 
@@ -82,7 +86,7 @@ v1.0beta2 :
 	-- Valeurs par défaut
 	UseSuspChar = true
 	UseRealApostroph = true
-	UseEspaceInsec = false
+	UseEspaceInsec = true
 	
 	-- function: create_adjust_config
 	-- purpose: create config structure for adjust GUI.
@@ -199,7 +203,7 @@ v1.0beta2 :
         table.insert(m_Ponctuation,"$")
         table.insert(m_Ponctuation,"€")
         table.insert(m_Ponctuation,"£")	
-        table.insert(m_Ponctuation,"¥")			
+		table.insert(m_Ponctuation,"¥")	
 		
         aegisub.log(5,"#m_Ponctuation: " .. #m_Ponctuation .. "\n")
 
@@ -541,10 +545,11 @@ v1.0beta2 :
 			for ifor2 = 1, #m_PointVirgule do
 				tmpstring2 = m_PointVirgule[ifor2]
 				MainStr = MainStr:Replace(tmpstring .. " " .. tmpstring2, tmpstring .. tmpstring2)
+				MainStr = MainStr:gsub("(%d+)%" .. tmpstring2 .. "%s(%d+)%s%" .. tmpstring, "%1%" .. tmpstring2 .. "%2% %" .. tmpstring)
 			end
 		end
 		aegisub.log(5,MainStr .. "\n\n")
-		
+
 		-- -- rectification d'effet de bord sur les chiffres à virgule
 		-- aegisub.log(5,"Rectification d'effet de bord sur les nombres rééls\n")
 		-- for ifor1 = 1, #m_PointVirgule do
@@ -582,14 +587,39 @@ v1.0beta2 :
 				MainStr = MainStr:Replace(" " .. tmpstring, " " .. tmpstring)
 				MainStr = MainStr:Replace(" " .. TagReplacement .. tmpstring, " " .. tmpstring)
 			end
+			for ifor1 = 1, #m_CurrencyUnits do
+				tmpstring = m_CurrencyUnits[ifor1]
+				MainStr = MainStr:Replace(" " .. tmpstring, " " .. tmpstring)
+				MainStr = MainStr:Replace(" " .. TagReplacement .. tmpstring, " " .. tmpstring)
+			end
+
 			MainStr = MainStr:Replace("« ", "« ")
-			MainStr = MainStr:Replace(" »", " »")	
-			
+			MainStr = MainStr:Replace(" »", " »")
+
+			MainStr = MainStr:Replace("– ", "– ")
+			MainStr = MainStr:Replace("— ", "— ")
+
+			MainStr = MainStr:gsub("(%d+) (%d+)","%1 %2")
+			MainStr = MainStr:gsub("(%d+) (%d+)","%1 %2")
+
 			if iUseEspInsecFine then
 				for ifor1 = 1, #m_DblePonctFine do
 					tmpstring = m_DblePonctFine[ifor1]
 					MainStr = MainStr:Replace(" " .. tmpstring, " " .. tmpstring)
-				end					
+				end
+				for ifor1 = 1, #m_CurrencyUnits do
+					tmpstring = m_CurrencyUnits[ifor1]
+					MainStr = MainStr:Replace(" " .. tmpstring, " " .. tmpstring)
+					MainStr = MainStr:Replace(" " .. TagReplacement .. tmpstring, " " .. tmpstring)
+				end
+				MainStr = MainStr:Replace("« ", "« ")
+				MainStr = MainStr:Replace(" »", " »")
+
+				MainStr = MainStr:Replace("– ", "– ")
+				MainStr = MainStr:Replace("— ", "— ")
+
+				MainStr = MainStr:gsub("(%d+) (%d+)","%1 %2")
+				MainStr = MainStr:gsub("(%d+) (%d+)","%1 %2")
 			end
 		end
 		
