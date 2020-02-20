@@ -22,7 +22,7 @@ Release Note:
 
 v1.7.2
 - Prise en charge d’autres cas pour les espaces insécables fines ou non
-- Prise en charge des nombres monétaires à virgules 
+- Prise en charge des nombres monétaires à virgules
 
 v1.7.1
 - Ne corrige maintenant la ponctuation que des lignes sélectionnées
@@ -202,13 +202,13 @@ function InitData()
 	table.insert(m_Ponctuation,"%")
 	table.insert(m_Ponctuation,"$")
 	table.insert(m_Ponctuation,"€")
-	table.insert(m_Ponctuation,"£")	
-	table.insert(m_Ponctuation,"¥")	
+	table.insert(m_Ponctuation,"£")
+	table.insert(m_Ponctuation,"¥")
 	
 	aegisub.log(5,"#m_Ponctuation: " .. #m_Ponctuation .. "\n")
 
 	table.insert(m_DblePonct,"!")
-	table.insert(m_DblePonct,"?")	
+	table.insert(m_DblePonct,"?")
 	aegisub.log(5,"#m_DblePonct: " .. #m_DblePonct .. "\n")
 
 	table.insert(m_DblePtsnCo,":")
@@ -221,14 +221,14 @@ function InitData()
 	aegisub.log(5,"#m_DblePtsnCo: " .. #m_DblePtsnCo .. "\n")
 
 	table.insert(m_DblePonctFine,"!")
-	table.insert(m_DblePonctFine,"?")	
-	table.insert(m_DblePonctFine,";")			
+	table.insert(m_DblePonctFine,"?")
+	table.insert(m_DblePonctFine,";")
 	aegisub.log(5,"#m_DblePonctFine: " .. #m_DblePonctFine .. "\n")		
 	
 	table.insert(m_CurrencyUnits,"%")
 	table.insert(m_CurrencyUnits,"$")
 	table.insert(m_CurrencyUnits,"€")
-	table.insert(m_CurrencyUnits,"£")		
+	table.insert(m_CurrencyUnits,"£")
 	aegisub.log(5,"#m_CurrencyUnits: " .. #m_CurrencyUnits .. "\n")
 	
 	table.insert(m_PointVirgule,".")
@@ -237,7 +237,7 @@ function InitData()
 	aegisub.log(5,"#m_PointVirgule: " .. #m_PointVirgule .. "\n")
 
 	table.insert(m_GuillemetsFR,"«")
-	table.insert(m_GuillemetsFR,"»")	
+	table.insert(m_GuillemetsFR,"»")
 	aegisub.log(5,"#m_GuillemetsFR: " .. #m_GuillemetsFR .. "\n")		
 	end
 
@@ -258,7 +258,7 @@ function CorrigePonctuationMain(subs, sel, iTypeGuillemets, iUseEspaceInsec, iUs
 	aegisub.progress.task("Correction de ponctuation en cours")
 	aegisub.progress.set(0)
 	for k, i in ipairs(sel) do
-		sub = subs[i]		
+		sub = subs[i]
 		
 		if sub.class=="dialogue" then
 			if firstlineIdx == nil then
@@ -296,7 +296,7 @@ function CorrigePonctLigne(iText, iTypeGuillements, iUseEspaceInsec, iUseEspInse
 	local tmpstring, tmpstring2
 	local ProblemeGuillemets = false
 	local mod1
-			
+
 	-- Séparation des tags de la chaine de texte :
 	-- Préparation des tags consécutifs pour les laisser ensemble :
 	aegisub.log(5,"Préparation des tags consécutifs pour les laisser ensemble :\n")
@@ -334,10 +334,10 @@ function CorrigePonctLigne(iText, iTypeGuillements, iUseEspaceInsec, iUseEspInse
 	aegisub.log(5,"Retrait des espaces bizarres :\n")
 	
 	MainStr = MainStr:Replace(" ", " ") -- oui oui... ces deux espaces ne sont pas pareils... et le premier n'est apparemment pas l'insécable...
-	MainStr = MainStr:Replace(" ", " ") -- remplacement de l'espace insécable fine				
+	MainStr = MainStr:Replace(" ", " ") -- remplacement de l'espace insécable fine
 	MainStr = MainStr:Replace(" ", " ") -- remplacement de l'espace ponctuation	
-	MainStr = MainStr:Replace(" ", " ") -- remplacement de l'espace insécable	
-	aegisub.log(5,MainStr .. "\n\n")		
+	MainStr = MainStr:Replace(" ", " ") -- remplacement de l'espace insécable
+	aegisub.log(5,MainStr .. "\n\n")
 	
 	-- Retrait des espaces autour des ponctuations :
 	aegisub.log(5,"Retrait des espaces autour des ponctuations :\n")
@@ -378,7 +378,7 @@ function CorrigePonctLigne(iText, iTypeGuillements, iUseEspaceInsec, iUseEspInse
 			end
 			while MainStr:Contains(m_DblePonct[ifor1] .. TagReplacement .. " " .. m_DblePonct[ifor2]) do
 				MainStr = MainStr:Replace(m_DblePonct[ifor1] .. TagReplacement .. " " .. m_DblePonct[ifor2], m_DblePonct[ifor1] .. TagReplacement .. m_DblePonct[ifor2])
-			end			
+			end
 		end
 	end
 	aegisub.log(5,MainStr .. "\n\n")
@@ -408,7 +408,7 @@ function CorrigePonctLigne(iText, iTypeGuillements, iUseEspaceInsec, iUseEspInse
 		tmpstring = m_DblePtsnCo[ifor1]
 		MainStr = MainStr:Replace(tmpstring, " " .. tmpstring .. " ")
 	end	
-	aegisub.log(5,MainStr .. "\n\n")		
+	aegisub.log(5,MainStr .. "\n\n")
 
 	-- On rajoute les espaces autour des guillemets FR :
 	aegisub.log(5,"On rajoute les espaces autour des guillemets FR :\n")
@@ -466,7 +466,7 @@ function CorrigePonctLigne(iText, iTypeGuillements, iUseEspaceInsec, iUseEspInse
 	aegisub.log(5,"Si demandé, on repasse en guillemets droits\n")
 	if iTypeGuillements == eTypeGuillemets.GuillemetsDroits then
 		MainStr = MainStr:Replace("« ", '"')
-		MainStr = MainStr:Replace(" »", '"')		
+		MainStr = MainStr:Replace(" »", '"')
 	end
 	aegisub.log(5,MainStr .. "\n\n")
 	
@@ -521,7 +521,7 @@ function CorrigePonctLigne(iText, iTypeGuillements, iUseEspaceInsec, iUseEspInse
 	aegisub.log(5,"Si le dernier caractère de la chaine est un espace, on le vire :\n")
 	MainStr = MainStr:gsub(" +$","")
 	MainStr = MainStr:gsub(" +" .. TagReplacement .. "$", TagReplacement)
-	aegisub.log(5,MainStr .. "\n\n")		
+	aegisub.log(5,MainStr .. "\n\n")
 	
 	-- Ajustement des parenthèses avec les doubles ponctuations :
 	aegisub.log(5,"Ajustement des parenthèses avec les doubles ponctuations :\n")
